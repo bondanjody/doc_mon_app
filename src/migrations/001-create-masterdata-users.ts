@@ -31,5 +31,5 @@ export async function up(queryInterface: QueryInterface) {
 }
 
 export async function down(queryInterface: QueryInterface) {
-  await queryInterface.dropTable("b_bookmarker_users_tbl");
+  await queryInterface.dropTable("masterdata_users_tbl");
 }
