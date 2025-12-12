@@ -1,0 +1,31 @@
+@baseUrl = xxx
+@token = xxx
+
+### Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+    "username":"xxx",
+    "password":"xxx"
+}
+
+### Add New Type 
+POST {{baseUrl}}/api/type-management/add-new-type 
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "xxx",
+    "description": "xxx"
+}
+
+### Add New Rack 
+POST {{baseUrl}}/api/rack-management/add-new-rack
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "xxx",
+    "location": "xxx"
+}
