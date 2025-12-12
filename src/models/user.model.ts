@@ -3,7 +3,7 @@ import { Model, DataTypes, Optional, Sequelize } from "sequelize";
 // ==============================
 // 1️⃣ Define UserRole Type
 // ==============================
-export type UserRole = "B.BM.USER" | "B.BM.ADMIN" | "B.BM.SUPERADMIN";
+export type UserRole = "USER" | "ADMIN" | "SUPERADMIN";
 
 /**
  * Interface atribut penuh user
