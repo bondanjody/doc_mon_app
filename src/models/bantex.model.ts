@@ -1,13 +1,12 @@
 import { Model, DataTypes, Optional, Sequelize } from "sequelize";
 
 /**
- * Interface atribut Type
+ * Interface atribut Bantex
  */
-export interface TypeAttributes {
+export interface BantexAttributes {
   id: string;
   name: string;
   location: string;
-  notes: string;
   is_active: boolean;
 
   created_at?: Date;
@@ -22,9 +21,9 @@ export interface TypeAttributes {
 /**
  * Atribut opsional saat create
  */
-export interface TypeCreationAttributes
+export interface BantexCreationAttributes
   extends Optional<
-    TypeAttributes,
+    BantexAttributes,
     | "id"
     | "is_active"
     | "created_at"
@@ -37,14 +36,13 @@ export interface TypeCreationAttributes
 /**
  * Model class
  */
-export class Type
-  extends Model<TypeAttributes, TypeCreationAttributes>
-  implements TypeAttributes
+export class Bantex
+  extends Model<BantexAttributes, BantexCreationAttributes>
+  implements BantexAttributes
 {
   public id!: string;
   public name!: string;
   public location!: string;
-  public notes!: string;
   public is_active!: boolean;
 
   public readonly created_at!: Date;
@@ -59,8 +57,8 @@ export class Type
 /**
  * Init model
  */
-export default function initTypeModel(sequelize: Sequelize): typeof Type {
-  Type.init(
+export default function initBantexModel(sequelize: Sequelize): typeof Bantex {
+  Bantex.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -107,7 +105,7 @@ export default function initTypeModel(sequelize: Sequelize): typeof Type {
     {
       sequelize,
       tableName: "masterdata_doc_bantexes_tbl",
-      modelName: "Type",
+      modelName: "Bantex",
 
       timestamps: true,
       createdAt: "created_at",
@@ -118,5 +116,5 @@ export default function initTypeModel(sequelize: Sequelize): typeof Type {
     }
   );
 
-  return Type;
+  return Bantex;
 }

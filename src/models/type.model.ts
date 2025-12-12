@@ -25,6 +25,7 @@ export interface TypeCreationAttributes
   extends Optional<
     TypeAttributes,
     | "id"
+    | "description"
     | "is_active"
     | "created_at"
     | "updated_at"
