@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { serialize } from "cookie";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "../../../models/index";
@@ -16,7 +17,6 @@ export default async function handler(
 
   try {
     const { username, password } = req.body;
-    console.log("Nilai password : ", password);
 
     if (!username || !password) {
       return res.status(400).json({
@@ -54,6 +54,17 @@ export default async function handler(
       {
         expiresIn: process.env.JWT_EXPIRES_IN || "1d",
       }
+    );
+
+    // Set HttpOnly cookie
+    res.setHeader(
+      "Set-Cookie",
+      serialize("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        path: "/",
+        maxAge: 60 * 60, // 1 hari
+      })
     );
 
     return res.status(200).json({
