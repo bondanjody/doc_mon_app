@@ -11,10 +11,36 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   const { name, location } = req.body;
-
   const user = (req as any).user;
 
   try {
+    // ================================
+    // 🔍 VALIDASI INPUT
+    // ================================
+    if (!name) {
+      return res.status(400).json({
+        status: false,
+        message: "Invalid 'name' value.",
+      });
+    }
+
+    // ================================
+    // 🔍 CEK DUPLIKAT NAMA
+    // ================================
+    const existingRack = await Rack.findOne({
+      where: { name },
+    });
+
+    if (existingRack) {
+      return res.status(409).json({
+        status: false,
+        message: `Rack already exists !`,
+      });
+    }
+
+    // ================================
+    // 💾 INSERT DATA
+    // ================================
     const newRack = await Rack.create({
       name,
       location,
@@ -27,6 +53,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       data: newRack,
     });
   } catch (error: any) {
+    console.error("SAVE RACK ERROR:", error);
+
     return res.status(500).json({
       status: false,
       message: "FAILED to save rack data.",
@@ -35,5 +63,5 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-// ⬇ DAFTAR ROLE YANG DIIZINKAN
+// ⬇ ROLE YANG DIIZINKAN
 export default authorize(["ADMIN", "SUPERADMIN"], handler);
