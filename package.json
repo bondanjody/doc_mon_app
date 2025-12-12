@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "db:migrate": "sequelize db:migrate",
+    "db:migrate:undo": "sequelize db:migrate:undo",
+    "db:seed:superadmin": "ts-node -r tsconfig-paths/register ./node_modules/.bin/sequelize db:seed --seed 001-superadmin-seed.ts"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

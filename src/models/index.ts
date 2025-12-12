@@ -5,22 +5,22 @@ import dotenv from "dotenv";
 import initUserModel, { User, UserRole } from "./user.model";
 import initBantexModel, { Bantex } from "./bantex.model";
 import initTypeModel, { Type } from "./type.model";
-import initRackModel, { Rack} from "./rack.model";
+import initRackModel, { Rack } from "./rack.model";
 
 dotenv.config();
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const sequelize = new Sequelize({
-  database: process.env.DB_NAME!,
-  username: process.env.DB_USER!,
-  password: process.env.DB_PASS,
-  host: process.env.DB_HOST || "127.0.0.1",
-  port: Number(process.env.DB_PORT || 5432),
+  database: isProduction ? process.env.DB_PROD_NAME! : process.env.DB_DEV_NAME!,
+  username: isProduction ? process.env.DB_PROD_USER! : process.env.DB_DEV_USER!,
+  password: isProduction ? process.env.DB_PROD_PASS! : process.env.DB_DEV_PASS!,
+  host: isProduction ? process.env.DB_PROD_HOST! : process.env.DB_DEV_HOST!,
+  port: Number(
+    isProduction ? process.env.DB_PROD_PORT : process.env.DB_DEV_PORT
+  ),
   dialect: "postgres",
-  logging: false,
-  define: {
-    timestamps: false, // karena kita menggunakan created_at, updated_at manual
-    underscored: true,
-  },
+  logging: !isProduction, // production: no logging
 });
 
 // ==========================
@@ -53,7 +53,7 @@ Rack.belongsTo(User, { foreignKey: "deleted_by", as: "deleter_user" });
 // ==========================
 // EXPORT SEMUA MODEL
 // ==========================
-export { sequelize, User, Bantex, Type, Rack};
+export { sequelize, User, Bantex, Type, Rack };
 
 // ⚠️ Export tipe UserRole agar bisa dipakai di controller
 export type { UserRole };
